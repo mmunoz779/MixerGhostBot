@@ -1,0 +1,6 @@
+1. Add refresh token support
+2. Fix @ mentions with targets for custom commands
+3. Add an embedded web browser for Oauth
+4. Fully automate Oauth
+5. Add priority queue support
+6. Add a list of all viewers that visit channel while bot is present
