@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="org.dmfs:http-client-essentials:0.10.1" type="repository">
+    <properties maven-id="org.dmfs:http-client-essentials:0.10.1" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/http-client-essentials-0.10.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
