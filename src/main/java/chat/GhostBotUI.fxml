@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?language javascript?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.UIController">
+    <center>
+        <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0"
+                 prefWidth="1920.0" tabClosingPolicy="UNAVAILABLE">
+            <Tab id="oauthTab" closable="false" text="Login">
+                <BorderPane minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1920.0"
+                            BorderPane.alignment="CENTER">
+                    <WebView fx:id="webView" prefHeight="1080.0" prefWidth="1920.0" visible="true"/>
+                    <VBox fx:id="loginVBox" alignment="CENTER" fillWidth="false">
+                        <TextArea id="streamerUsername" fx:id="usernameField" prefHeight="50.0" prefWidth="300.0"
+                                  promptText="Enter Username" wrapText="false"/>
+                        <Button fx:id="streamerLoginButton" mnemonicParsing="false"
+                                onAction="#handleLoginButtonClick" text="Login" VBox.vgrow="SOMETIMES"/>
+                    </VBox>
+                </BorderPane>
+            </Tab>
+            <Tab id="chatTab" text="Chat">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1920.0">
+                    <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308"
+                                maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="338.0" prefWidth="598.0">
+                            <TextArea id="chatTextField" fx:id="chatTextArea" editable="false" prefHeight="1080.0"
+                                      prefWidth="1920.0" wrapText="true"/>
+                        </AnchorPane>
+                    </ScrollPane>
+                </AnchorPane>
+            </Tab>
+        </TabPane>
+    </center>
+</BorderPane>

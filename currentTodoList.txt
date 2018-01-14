@@ -1,5 +1,12 @@
-1. Fix @ mentions with targets for custom commands
-2. Add an embedded web browser for Oauth
-3. Fully automate Oauth
-4. Add priority queue support
-5. Add a list of all viewers that visit channel while bot is present
+1. Fix @ mentions with targets for custom commands (adjust how parsing initial message, servers send message differently depending on events like mentions and whispers)
+2. Add UI to allow for distribution and testing of bot
+    -add binding for dynamic resizing
+3. Add an embedded web browser for Oauth
+4. Fully automate Oauth
+5. Add priority queue support
+6. Add a list of all viewers that visit channel while bot is present
+7. Adjust how information is stored between uses to make more secure and obfuscated
+8. Allow user to log into a custom bot instead of ghostbot779
+9. Add support for more custom command variables
+10. Replace linear command storage with binary search tree for efficiency with large viewercounts
+11. Modify methods to work async/adjust timeout where possible to prevent hangs on long operations
