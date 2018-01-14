@@ -13,13 +13,16 @@
             <Tab id="oauthTab" closable="false" text="Login">
                 <BorderPane minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1920.0"
                             BorderPane.alignment="CENTER">
-                    <WebView fx:id="webView" prefHeight="1080.0" prefWidth="1920.0" visible="true"/>
-                    <VBox fx:id="loginVBox" alignment="CENTER" fillWidth="false">
-                        <TextArea id="streamerUsername" fx:id="usernameField" prefHeight="50.0" prefWidth="300.0"
-                                  promptText="Enter Username" wrapText="false"/>
-                        <Button fx:id="streamerLoginButton" mnemonicParsing="false"
-                                onAction="#handleLoginButtonClick" text="Login" VBox.vgrow="SOMETIMES"/>
-                    </VBox>
+                    <center>
+                        <WebView fx:id="webView" prefHeight="1080.0" prefWidth="1920.0" visible="false"/>
+                        <VBox fx:id="loginVBox" alignment="CENTER" fillWidth="false">
+                            <TextArea fx:id="usernameField" prefHeight="50.0" prefWidth="300.0"
+                                      promptText="Enter Username" wrapText="false"
+                                      onKeyPressed="#handleLoginTextboxEnterPressed"/>
+                            <Button fx:id="streamerLoginButton" mnemonicParsing="false"
+                                    onAction="#handleLoginButtonClick" text="Login" VBox.vgrow="SOMETIMES"/>
+                        </VBox>
+                    </center>
                 </BorderPane>
             </Tab>
             <Tab id="chatTab" text="Chat">

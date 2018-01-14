@@ -3,6 +3,7 @@ package chat;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
@@ -31,10 +32,22 @@ public class UIController {
 
     @FXML
     public void handleLoginButtonClick() throws Exception {
+        loadAuthentication();
+    }
+
+    @FXML
+    public void handleLoginTextboxEnterPressed() throws Exception {
+        usernameField.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER))
+                loadAuthentication();
+        });
+    }
+
+    private void loadAuthentication() {
         chatTextArea.appendText("new username:\t" + usernameField.getText() + "\n");
         webView.setVisible(true);
         WebEngine webEngine = webView.getEngine();
-        webEngine.load("https://google.com");
+        webEngine.load("https://mixer.com");
         loginVBox.setVisible(false);
     }
 }
