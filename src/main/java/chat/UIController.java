@@ -48,6 +48,7 @@ public class UIController {
         webView.setVisible(true);
         WebEngine webEngine = webView.getEngine();
         webEngine.load("https://mixer.com");
-        loginVBox.setVisible(false);
+        usernameField.setVisible(false);
+        streamerLoginButton.setVisible(false);
     }
 }
