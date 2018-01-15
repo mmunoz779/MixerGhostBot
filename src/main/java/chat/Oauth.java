@@ -11,10 +11,10 @@ import java.io.*;
 import java.util.Scanner;
 
 class Oauth implements Serializable {
-    private String refreshToken = null;
-    private String accessToken = null;
-    private String expiresIn = null;
-    private String currentStreamerUsername;
+    private static String refreshToken = null;
+    private static String accessToken = null;
+    private static String expiresIn = null;
+    private static String username;
     private final String fileDirectory = String.format("%s\\bin", System.getProperty("user.dir"));
     private final String filepath = String.format("%s\\bin\\currentStreamer.txt", System.getProperty("user.dir"));
 
@@ -27,26 +27,12 @@ class Oauth implements Serializable {
         }
         if (new File(filepath).createNewFile()) {
             System.out.println("Please enter the username for the streamer you want to authenticate: ");
-            this.currentStreamerUsername = userInput.nextLine();
+            this.username = userInput.nextLine();
         } else {
             input = new Scanner(new File(filepath));
             if (input.hasNextLine()) {
-                this.currentStreamerUsername = input.nextLine();
+                this.username = input.nextLine();
             }
-//            System.out.println(String.format("Do you want to sign in as %s? (y/n)", this.currentStreamerUsername));
-//            switch (userInput.next().toLowerCase()) {
-//                case "y":
-//                    useCurrentStreamer = true;
-//                    break;
-//                case "n":
-//                    useCurrentStreamer = false;
-//                    userInput = new Scanner(System.in);
-//                    System.out.println("Please enter the username for the streamer you want to authenticate: ");
-//                    this.currentStreamerUsername = userInput.nextLine();
-//                    this.accessToken = null;
-//                    this.expiresIn = null;
-//                    break;
-//            }
         }
         if (input.hasNextLine()) {
             this.accessToken = input.nextLine();
@@ -68,8 +54,12 @@ class Oauth implements Serializable {
         return this.expiresIn;
     }
 
-    public String getCurrentStreamerUsername() {
-        return this.currentStreamerUsername;
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void refresh() throws OAuthSystemException, IOException, OAuthProblemException {
@@ -91,14 +81,26 @@ class Oauth implements Serializable {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.expiresIn = expiresIn;
-        pw.println(this.currentStreamerUsername);
+        pw.println(this.username);
         pw.println(this.accessToken);
         pw.println(this.refreshToken);
         pw.println(this.expiresIn);
         pw.close();
     }
 
+    public String generateAuthCode() throws OAuthSystemException {
+        OAuthClientRequest request = OAuthClientRequest
+                .authorizationLocation("https://mixer.com/oauth/authorize")
+                .setResponseType("code")
+                .setScope("chat:connect channel:analytics:self chat:whisper chat:remove_message chat:clear_messages chat:bypass_slowchat chat:bypass_links chat:poll_start") //space separated scopes
+                .setClientId("630d7b67d18433a1eed514ae9b24134e6ab1ede6de58a896")
+                .setRedirectURI("http://localhost/")
+                .buildQueryMessage();
+        return request.getLocationUri();
+    }
+
     public void authenticate() throws OAuthSystemException, IOException, OAuthProblemException {
+        // FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("/chat/GhostBotUI.fxml"));
         PrintWriter pw = new PrintWriter(new File(filepath));
         OAuthClientRequest request = OAuthClientRequest
                 .authorizationLocation("https://mixer.com/oauth/authorize")
@@ -108,7 +110,9 @@ class Oauth implements Serializable {
                 .setRedirectURI("http://localhost/")
                 .buildQueryMessage();
         //in web application you make redirection to uri:
-        System.out.println("Visit: " + request.getLocationUri() + "\nand grant permission");
+        //UIController controller = loader.getController();
+        // controller.loadAuthentication(request.getLocationUri());
+        System.out.print("Go to " + request.getLocationUri() + " and get the code\n");
 
         System.out.print("Now enter the OAuth code you have received in redirect uri: \n");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -131,7 +135,7 @@ class Oauth implements Serializable {
         this.refreshToken = refreshToken;
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
-        pw.println(this.currentStreamerUsername);
+        pw.println(this.username);
         pw.println(this.accessToken);
         pw.println(this.refreshToken);
         pw.println(this.expiresIn);
