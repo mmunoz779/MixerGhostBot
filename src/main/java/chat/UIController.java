@@ -1,6 +1,7 @@
 package chat;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
@@ -27,7 +28,6 @@ public class UIController {
     public void initialize() {
         WebEngine webEngine = webView.getEngine();
         webEngine.load("https://google.com");
-        streamerLoginButton.setText("Login");
     }
 
     @FXML
@@ -44,11 +44,21 @@ public class UIController {
     }
 
     private void loadAuthentication() {
-        chatTextArea.appendText("new username:\t" + usernameField.getText() + "\n");
+        chatTextArea.setText("new username:\t" + usernameField.getText() + "\n");
         webView.setVisible(true);
         WebEngine webEngine = webView.getEngine();
         webEngine.load("https://mixer.com");
         usernameField.setVisible(false);
         streamerLoginButton.setVisible(false);
     }
+
+    void appendChatTextArea(String text) {
+        chatTextArea.appendText(text + "\n");
+    }
+
+    void bindScene(Scene scene) {
+        borderPane.prefWidthProperty().bind(scene.widthProperty());
+        borderPane.prefHeightProperty().bind(scene.heightProperty());
+    }
+
 }

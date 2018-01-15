@@ -14,7 +14,6 @@ import com.mixer.api.services.impl.ChatService;
 import com.mixer.api.services.impl.UsersService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
@@ -41,17 +40,16 @@ public class Chat extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        UIController uiController = new UIController();
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("chat/GhostBotUI.fxml"));
 
         //create local variables
         ArrayList<MixerChatConnectable> chatConnectable = new ArrayList<>();
         Commands commands = new Commands();
 
         //load FXML for UI
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("chat/GhostBotUI.fxml"));
         primaryStage.setTitle("Ghost Bot");
-        primaryStage.setScene(new Scene(root, 1920, 1080));
+        Scene scene = new Scene(loader.load(), 1920, 1080);
+        primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
 
         // Oauth 2.0
@@ -81,13 +79,19 @@ public class Chat extends Application {
             //locate streamer's chat and create a chat connection for the bot account
             MixerChat chat = botMixer.use(ChatService.class).findOne(streamer.channel.id).get();
             chatConnectable.add(chat.connectable(streamerMixer));
+
+            //load UI and perform controller related setup
             primaryStage.show();
+            UIController controller = loader.getController();
+            controller.bindScene(scene);
+
             //if connection succeeds
             if (chatConnectable.get(0).connect()) {
                 chatConnectable.get(0).send(AuthenticateMessage.from(streamer.channel, bot, chat.authkey), new ReplyHandler<AuthenticationReply>() {
                     public void onSuccess(AuthenticationReply reply) {
                         chatConnectable.get(0).send(WhisperMethod.builder().send("Bot is online").to(streamer).build());
                         System.out.println("Bot is online");
+                        controller.appendChatTextArea("Bot is online");
 
                         //create shutdownhook to attempt to send a message to chat for when program closes unexpectedly
                         class ShutDownHook extends Thread {
@@ -125,6 +129,7 @@ public class Chat extends Application {
                 String command = event.data.message.message.get(0).text;
 
                 event.data.message.message.stream().forEach(e -> message[0] += e.text);
+                controller.appendChatTextArea(String.format("%s: %s", event.data.userName, message[0]));
                 System.out.print(String.format("%s: %s\n", event.data.userName, message[0]));
                 if (!event.data.userName.equals("GhostBot779")) {
                     if (event.data.userRoles.contains(MixerUser.Role.MOD) || event.data.userRoles.contains(MixerUser.Role.OWNER)) {
