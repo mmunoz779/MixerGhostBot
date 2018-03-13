@@ -1,4 +1,5 @@
 import com.mixer.api.MixerAPI;
+import com.mixer.api.resource.MixerUser;
 import com.mixer.api.resource.chat.events.IncomingMessageEvent;
 import com.mixer.api.services.impl.ChatService;
 import com.mixer.api.services.impl.UsersService;
@@ -7,6 +8,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 class Commands {
     private static final ArrayList<Command> commandsList = new ArrayList<>();
@@ -141,19 +144,12 @@ class Command implements Comparable<Command> {
         return this.commandMessage;
     }
 
-    public String getCommandMessageWithData(IncomingMessageEvent event, MixerAPI streamer) {
-        try {
-            String commandMessageWithEventData = this.commandMessage.replaceAll("\\$target", event.data.message.message.get(0).text.replaceAll("@","").split(" ",2)[1]);
-            commandMessageWithEventData = commandMessageWithEventData.replaceAll("\\$user", event.data.userName);
-            commandMessageWithEventData = commandMessageWithEventData.replaceAll("\\$caster", streamer.use(UsersService.class).findOne(event.data.channel).get().username);
-            commandMessageWithEventData = commandMessageWithEventData.replaceAll("\\$user", event.data.userName);
-            return commandMessageWithEventData;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return "";
+    public String getCommandMessageWithData(IncomingMessageEvent event, MixerUser streamer) {
+        String commandMessageWithEventData = this.commandMessage.replaceAll("\\$target", event.data.message.message.get(0).text.replaceAll("@", "").split(" ", 2)[1]);
+        commandMessageWithEventData = commandMessageWithEventData.replaceAll("\\$user", event.data.userName);
+        commandMessageWithEventData = commandMessageWithEventData.replaceAll("\\$caster", streamer.username);
+        commandMessageWithEventData = commandMessageWithEventData.replaceAll("\\$user", event.data.userName);
+        return commandMessageWithEventData;
     }
 
     @Override

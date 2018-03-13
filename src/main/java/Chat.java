@@ -37,7 +37,6 @@ public class Chat {
             Oauth streamerAuthentication = new Oauth();
             if (streamerAuthentication.getAccessToken() == null)
                 streamerAuthentication.authenticate();
-
             try {
                 MixerAPI testAuth = new MixerAPI(streamerAuthentication.getAccessToken());
                 testAuth.use(UsersService.class).getCurrent().get();
@@ -140,7 +139,7 @@ public class Chat {
                         for (Command aCommand : commands.getCommandsList()) {
                             if (aCommand.getCommandName().equals(event.data.message.message.get(0).text.split(" ")[0])) {
                                 target[0] = event.data.message.message.get(0).text.split(" ")[1];
-                                chatConnectable.get(0).send(ChatSendMethod.of(aCommand.getCommandMessageWithData(event, streamerMixer)));
+                                chatConnectable.get(0).send(ChatSendMethod.of(aCommand.getCommandMessageWithData(event, streamer)));
                                 break;
                             }
                         }
@@ -155,7 +154,7 @@ public class Chat {
                         }
                     }
                     if (command.toLowerCase().startsWith("!ghostbot")) {
-                        chatConnectable.get(0).send(ChatSendMethod.of((String.format("Hello @%s! I am ghostbot, a bot created by ghost. Feel free to ask him more about me!", event.data.userName))));
+                        chatConnectable.get(0).send(ChatSendMethod.of((String.format("Hello @%s! I am ghostbot, a bot created by GhostITM. Feel free to ask him more about me!", event.data.userName))));
                     }
                     if (command.split(" ")[0].toLowerCase().equals("!followers")) {
                         try {
