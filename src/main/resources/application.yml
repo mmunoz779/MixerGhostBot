@@ -1,0 +1,22 @@
+server:
+  port: 8080
+  session:
+    cookies:
+      name: UISESSION
+security:
+  oauth2:
+    client:
+      clientID: 630d7b67d18433a1eed514ae9b24134e6ab1ede6de58a896
+      clientSecret: d0fa8e508c2ebe177181b2c300115bb3dc9b9cf828a86db5f80112d028d9be73
+      accessTokenUri: https://mixer.com/api/v1/oauth/token
+      userAuthorizationUri: https://mixer.com/oauth/authorize
+      scope: chat:connect channel:analytics:self chat:whisper chat:remove_message chat:clear_messages chat:bypass_slowchat chat:bypass_links chat:poll_start
+      grant-type: authorization_code
+      pre-established-redirect-uri: mixer.com
+    resource:
+      tokenInfoUri: https://mixer.com/api/v1/oauth/token
+      prefer-token-info: true
+      token-type: access
+spring:
+  thymeleaf:
+    cache: false

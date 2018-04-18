@@ -64,7 +64,6 @@ public class UIController {
     }
 
     public void loadAuthentication(String url) throws IOException {
-        chatTextArea.setText("now logged in as " + usernameField.getText() + "\n");
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("chat/authenticationUI.fxml"));
         Stage authStage = new Stage();
         authStage.setTitle("Authenticate GhostBot");
@@ -73,11 +72,15 @@ public class UIController {
         authStage.show();
         AuthController controller = loader.getController();
         WebEngine webEngine = controller.loadWebPage(url);
+        controller.authWebView.prefHeightProperty().bind(scene.heightProperty());
+        controller.authWebView.prefWidthProperty().bind(scene.widthProperty());
         webEngine.setOnStatusChanged(e -> {
-            if (e.getData().contains("localhost")) {
-                System.out.println("redirected");
-            }
+            System.out.println(webEngine.getLocation());
         });
+        webEngine.setOnAlert(e -> {
+            webEngine.load(e.getData());
+        });
+        chatTextArea.setText("now logged in as " + usernameField.getText() + "\n");
     }
 
     void appendChatTextArea(String text) {

@@ -28,6 +28,8 @@ import java.util.concurrent.ExecutionException;
 
 public class Chat extends Application {
 
+    private UIController controller;
+
     private Streamer streamer;
 
     private PriorityQueue<String> createQueue() {
@@ -45,6 +47,7 @@ public class Chat extends Application {
         //create local variables
         ArrayList<MixerChatConnectable> chatConnectable = new ArrayList<>();
         Commands commands = new Commands();
+
 
         //load FXML for UI
         primaryStage.setTitle("Ghost Bot");
@@ -80,13 +83,12 @@ public class Chat extends Application {
             MixerChat chat = botMixer.use(ChatService.class).findOne(streamer.channel.id).get();
             chatConnectable.add(chat.connectable(streamerMixer));
 
-            //load UI and perform controller related setup
-            primaryStage.show();
-            UIController controller = loader.getController();
-            controller.bindScene(scene);
-
             //if connection succeeds
             if (chatConnectable.get(0).connect()) {
+                //load UI and perform controller related setup
+                primaryStage.show();
+                controller = loader.getController();
+                controller.bindScene(scene);
                 chatConnectable.get(0).send(AuthenticateMessage.from(streamer.channel, bot, chat.authkey), new ReplyHandler<AuthenticationReply>() {
                     public void onSuccess(AuthenticationReply reply) {
                         chatConnectable.get(0).send(WhisperMethod.builder().send("Bot is online").to(streamer).build());
@@ -100,7 +102,6 @@ public class Chat extends Application {
                                 synchronized (chatConnectable) {
                                     try {
                                         chatConnectable.get(0).send(WhisperMethod.builder().send("Bot shutting down").to(streamer).build());
-                                        //chatConnectable.get(0).send(WhisperMethod.builder().send("Bot is shutting down").to(streamerMixer.use(UsersService.class).findOne(590964).get()).build());
                                         System.out.println("Bot shutting down");
                                         chatConnectable.wait(5);
                                     } catch (InterruptedException e) {

@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: com.mixer:api:5.0.4-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/mixer/api/5.0.4-SNAPSHOT/api-5.0.4-20170929.161942-2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/mixer/api/5.0.4-SNAPSHOT/api-5.0.4-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/com/mixer/api/5.0.4-SNAPSHOT/api-5.0.4-20170929.161942-2-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/mixer/api/5.0.4-SNAPSHOT/api-5.0.4-SNAPSHOT-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/mixer/api/5.0.4-SNAPSHOT/api-5.0.4-20170929.161942-2-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/mixer/api/5.0.4-SNAPSHOT/api-5.0.4-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

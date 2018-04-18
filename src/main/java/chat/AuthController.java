@@ -12,6 +12,7 @@ public class AuthController {
     }
 
     public WebEngine loadWebPage(String url) {
+        authWebView.autosize();
         WebEngine webEngine = authWebView.getEngine();
         webEngine.load(url);
         return webEngine;

@@ -4,15 +4,12 @@ import com.mixer.api.MixerAPI;
 import com.mixer.api.resource.chat.events.IncomingMessageEvent;
 import com.mixer.api.services.impl.UsersService;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-class Commands {
+class Commands implements Serializable {
     private static final ArrayList<Command> commandsList = new ArrayList<>();
     private static final ArrayList<String> commandNamesList = new ArrayList<>();
     private final String fileDirectory = String.format("%s\\bin", System.getProperty("user.dir"));
